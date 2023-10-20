@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-deployment
+  namespace: alpha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+      - name: ubuntu-container
+        image: ubuntu
+        command: ["/bin/sh", "-c", "tail -f /dev/null"]
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: /tmp/data
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          className: ebs-claim
+      nodeName: <node name in the same zone as persistent volume> 

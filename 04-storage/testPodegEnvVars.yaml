@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - name: wlhello3
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+      - mountPath: /usr/share/nginx/html/settings
+        name: test-volume
+  initContainers:
+  - name: init-busybox
+    image: busybox
+    command: ['sh', '-c', 'echo "DB_HOST=$(DB_HOST)" >> /usr/share/nginx/html/settings.html']
+    env:
+    - name: DB_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: env-configmap
+          key: DB_HOST
+    volumeMounts:
+      - mountPath: /usr/share/nginx/html
+        name: test-volume
+  volumes:
+    - emptyDir: {}
+      name: test-volume
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-configmap
+data:
+  DB_HOST: "myDatabaseHost.domain.tld"
+  DB_USER: "myDBUser"
+  DB_PASS: "myP@ssw0rd"
+  DB_PORT: "4321"

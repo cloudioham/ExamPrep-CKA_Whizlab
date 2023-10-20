@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap2
+data:
+  configmap-key1: "My Value"
+  configmap-key2: "1234"
+  some.properties:
+    some.types: orange, white
+    some.key: 2
+    some.product: 'My App'

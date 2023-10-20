@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: whizlabs-rs-example
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wlrseg1
+  template:
+    metadata:
+      labels:
+        app: wlrseg1
+    spec:
+      containers:
+      - name: wlhello
+        image: nginxdemos/hello
+        ports:
+        - containerPort: 80

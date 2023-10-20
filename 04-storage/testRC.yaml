@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: whizlabs-rc-example
+spec: 
+  replicas: 2
+  selector:
+    app: wlrcex1
+  template:
+    metadata:
+      name: wlrcex1
+      labels:
+        app: wlrcex1
+    spec:
+      containers:
+      - name: wlhello
+        image: nginxdemos/hello
+        ports:
+        - containerPort: 80

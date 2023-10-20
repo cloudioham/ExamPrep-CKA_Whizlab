@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-claim
+  namespace: alpha
+spec:
+  storageClassName: "" # Empty string must be explicity set otherwise default StorageClass will be set
+  volumeName: aws-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

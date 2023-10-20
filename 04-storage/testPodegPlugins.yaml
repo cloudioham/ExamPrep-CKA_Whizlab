@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: plugin-downloader
+spec:
+  initContainers:
+  - name: download-status
+    image: curlimages/curl
+    command: ['sh', '-c', 'curl -o /status/test.svg "https://princessking.visualstudio.com/ghost-blog/_apis/buildstatus%2Fghost-blog-CI%20(3)?branchName=main"']
+    volumeMounts:
+    - name: status-volume
+      mountPath: /status
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts: 
+    - name: status-volume
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: status-volume
+    emptyDir: {}

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cache
+spec:
+  initContainers:
+  - name: init-cache
+    image: busybox
+    command: ['sh', '-c', 'echo "Whizlabs cache data" > /cache/data']
+    volumeMounts:
+    - name: cache-volume
+      mountPath: /cache    
+  containers:
+  - name: app
+    image: nginxdemos/hello
+    volumeMounts:
+    - name: cache-volume
+      mountPath: /cache
+  volumes:
+    - emptyDir: {}
+      name: cache-volume
